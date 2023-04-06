@@ -1,7 +1,7 @@
 import './App.css';
 import MovieList from './components/MovieList';
 import React from 'react';
-import { useState } from 'react';
+import { useState,useCallback,useEffect } from 'react';
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -11,7 +11,7 @@ function App() {
   const cancelRetryHandler = () => {
     setError(error.message);
   };
-async function fetchMoviesHandler()
+const fetchMoviesHandler=useCallback(async()=>
 { 
   setIsLoading(true);
   setError(null);
@@ -37,7 +37,9 @@ try{
 
   }
 setIsLoading(false);
-}
+},[]);
+useEffect(()=>{fetchMoviesHandler();
+},[fetchMoviesHandler])
 let content = <p> Found no movies </p>;
 
   if (movies.length > 0) {
